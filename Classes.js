@@ -4,24 +4,30 @@
  * - lastName: String
  * - gender: String
  * - birthYear: Number
- *
- * 2. Add the constructor that initializes all properties
- *
- * 3. Add the following methods
- *
- *
- * + printName(), that print the persons full name  (first name and last name)
- *
- * + calculateAge(currentYear), that takes a number of current year (i.e. 2021),
- *   and returns the age of the person
- *
- * after you are done with the class, create at least 3 objects of type Person.
- * print every person's name using the method printName of each object
- * print out the sum of their ages using calculateAge() method
  */
 class Person {
-  // continue the code here
+  constructor(firstName, lastName, gender, birthYear) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.gender = gender;
+    this.birthYear = birthYear;
+  }
+  printName = () => {
+    console.log(this.firstName + " " + this.lastName);
+  };
+  calculateAge = (currentyear) => {
+    currentyear = currentyear - this.birthYear;
+    console.log(currentyear);
+  };
 }
+
+const newName = new Person("Mohammed", "Alfoudari", "Male", "1996");
+newName.printName();
+newName.calculateAge(2023);
+
+//  * after you are done with the class, create at least 3 objects of type Person.
+//  * print every person's name using the method printName of each object
+//  * print out the sum of their ages using calculateAge() method
 
 /** (Question 2): (15000 Points)
  * 1. Write a class `Movie`, give it the following properties
@@ -29,9 +35,8 @@ class Person {
  * - duration (in minutes)
  * - genre
  * - [rating]
- *
- * 2. Add the constructor that initializes all properties except the rating array, you should not pass it in the constructor method, and just initialize it with empty array.
- *
+ * * 2. Add the constructor that initializes all properties except the rating array, you should not pass it in the constructor method,
+ *  and just initialize it with empty array.
  * 3. and the following the methods
  * + rate(rating),
  *      That adds a new rating to the rating array.
@@ -46,8 +51,34 @@ class Person {
 
 class Movie {
   // continue the code here
-}
 
+  constructor(title, duration, genre, ratings) {
+    this.title = title;
+    this.duration = duration;
+    this.genre = genre;
+    this.ratings = ratings;
+  }
+
+  rate(rating) {
+    if (rating > 0 && rating < 10) {
+      this.ratings.push(rating);
+    } else {
+      console.log("rating must be between 0 and 10\n");
+    }
+  }
+  averageRating() {
+    let sum = this.ratings.reduce((rate1, rate2) => {
+      return rate1 + rate2;
+    }, 0);
+    return sum / this.ratings.length;
+  }
+}
+let movie1 = new Movie("HarryPotter", 1.5, "famtasy", [10, 8, 7, 4, 2]);
+let movie2 = new Movie("Batman", 1.5, "aciton", [9, 6, 7, 4, 2]);
+console.log(movie1.ratings);
+movie1.rate(5);
+console.log(movie1.ratings);
+console.log(movie1.averageRating());
 /** (Question 3): (1000 Points)
  * 1. Create a class `Actor` that inherits `Person`, and adds the following properties
  * - movies: array of `Movie`
@@ -58,3 +89,24 @@ class Movie {
  */
 
 // write the class here
+class Actor extends Person {
+  movies = [];
+  constructor(firstName, lastName, gender, birthYear) {
+    super(firstName, lastName, gender, birthYear);
+  }
+
+  addMovie(movie) {
+    if (!this.movies.includes(movie)) {
+      this.movies.push(movie);
+      console.log(`movie ${movie.title} has been added`);
+    } else console.log(`movie ${movie.title} already exist`);
+  }
+}
+let actorA = new Actor("Tito", "Kobo", "T", 1982);
+console.log(actorA.movies);
+
+actorA.addMovie(movie1);
+console.log(actorA.movies);
+actorA.addMovie(movie1);
+actorA.addMovie(movie2);
+console.log(actorA.movies);
